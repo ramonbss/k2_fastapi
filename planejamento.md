@@ -7,14 +7,8 @@
 
 ## 2. Implementação da Autenticação JWT
 - **Implementar Endpoint `/token`:**
-  - Criar o endpoint para aceitar credenciais de usuário.
-  - Validar credenciais contra `fake_users_db`.
-  - Gerar e retornar um token JWT após autenticação bem-sucedida.
-- **Criar Middleware para Validação de JWT:**
-  - Implementar middleware para decodificar e validar o token JWT.
-  - Garantir que o token seja passado no cabeçalho Authorization para rotas protegidas.
-- **Definir Configuração JWT:**
-  - Configurar chave secreta e algoritmo para codificação/decodificação de JWT.
+  - Codigo para o endpoint que gera credenciais de usuário.
+
 
 ## 3. Definição da Estrutura da API
 - **Definir Endpoints:**
