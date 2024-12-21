@@ -70,3 +70,35 @@
 - Considerações de Segurança: 1h
 
 Tempo total: ~8h
+
+## Arquitetura final
+src/  
+├── api/  
+│   ├── __init__.py  
+│   ├── routers/  
+│   │   ├── __init__.py  
+│   │   └── main.py  
+│   └── dependencies.py  
+├── core/  
+│   ├── __init__.py  
+│   └── config.py  
+├── models/  
+│   ├── __init__.py  
+│   └── user.py  
+├── schemas/  
+│   ├── __init__.py  
+│   └── user.py  
+├── services/  
+│   ├── __init__.py  
+│   └── auth_service.py  
+├── db/  
+│   ├── __init__.py  
+│   └── session.py  
+└── main.py  
+
+tests/  
+├── __init__.py  
+├── test_main.py  
+└── test_routers/  
+    ├── __init__.py  
+    └── test_user_routes.py  
