@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import Response, RequestError
 import respx
-from api.main import app, FAKE_API_TOKEN_ENDPOINT
+from app.api.main import app, FAKE_API_TOKEN_ENDPOINT
 
 client = TestClient(app)
 

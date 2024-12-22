@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 import httpx
 from .models import UserCredentials
+from ..core.config import FAKE_API_TOKEN_ENDPOINT
 
 app = FastAPI()
-FAKE_API_URL = "https://api-onecloud.multicloud.tivit.com/fake/"
-FAKE_API_TOKEN_ENDPOINT = FAKE_API_URL + "token"
 
 
 @app.post("/token")
