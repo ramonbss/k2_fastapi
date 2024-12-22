@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import Response, RequestError
 import respx
-from app.api.main import app, FAKE_API_TOKEN_ENDPOINT
+from app.api.main import app, REMOTE_TOKEN_URL
 
 client = TestClient(app)
 
@@ -49,7 +49,7 @@ def test_authenticate(
     expected_status_code,
     expected_response_body,
 ):
-    respx_mock.post(FAKE_API_TOKEN_ENDPOINT).mock(
+    respx_mock.post(REMOTE_TOKEN_URL).mock(
         return_value=Response(mock_response_status, json=mock_response_body)
     )
 
