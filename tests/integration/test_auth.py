@@ -1,10 +1,10 @@
 import os
 from fastapi.testclient import TestClient
-from app.api.main import app
+from app.api.main import fast_app
 from dotenv import load_dotenv
 
 load_dotenv(".env")
-client = TestClient(app)
+client = TestClient(fast_app)
 
 
 def test_user_authenticate_success():

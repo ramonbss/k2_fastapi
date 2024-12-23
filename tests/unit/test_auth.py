@@ -2,9 +2,9 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import Response, RequestError
 import respx
-from app.api.main import app, REMOTE_TOKEN_URL
+from app.api.main import fast_app, REMOTE_TOKEN_URL
 
-client = TestClient(app)
+client = TestClient(fast_app)
 
 
 valid_credentials = {"username": "testuser", "password": "password123"}

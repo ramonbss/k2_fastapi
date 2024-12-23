@@ -3,3 +3,5 @@
 .vscode/
 .env
 *.pyc
+/auth_data.db
+/insights

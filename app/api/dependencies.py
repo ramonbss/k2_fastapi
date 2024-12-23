@@ -1,7 +1,7 @@
 from fastapi import HTTPException, Header, Depends
 from .database import DatabaseSessionLocal
 from sqlalchemy.orm import Session
-from .crud import get_user_by_token
+from .crud import get_user_by_token, get_database, get_user_by_id
 
 
 async def validate_token(authorization: str = Header(...)):
@@ -11,19 +11,18 @@ async def validate_token(authorization: str = Header(...)):
     return authorization
 
 
-def get_database():
-    db = DatabaseSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def validate_user_id(user_id: int):
+    user = get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user_id
 
 
 async def check_role(role: str, token: str):
     """check if the user has the required role"""
     try:
         db = DatabaseSessionLocal()
-        user = get_user_by_token(db, token)
+        user = get_user_by_token(token)
     finally:
         db.close()
     if not user or user.role != role:
