@@ -13,12 +13,16 @@ from .crud import (
     create_or_update_user,
     get_database,
 )
-from app.api.routers import user_routers
+from app.api.routers import user_routers, admin_routers
 
 fast_app = FastAPI()
 
 fast_app.include_router(
     user_routers.user_router, prefix="/user", tags=[user_routers.TAG_USERS]
+)
+
+fast_app.include_router(
+    admin_routers.admin_router, prefix="/admin", tags=[admin_routers.TAG_ADMIN]
 )
 
 
@@ -36,10 +40,3 @@ async def authenticate(
             db=db, username=credentials.username, role=credentials.role, token=token
         )
         return response.json()
-
-
-@fast_app.get("/admin")
-async def local_admin(token: str = Depends(validate_token)):
-    """Access the remote /user endpoint using a valid JWT token."""
-    data = await get_user_informations("admin", token, REMOTE_ADMIN_URL)
-    return data

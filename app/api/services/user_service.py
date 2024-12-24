@@ -1,7 +1,3 @@
-from fastapi import HTTPException
-import httpx
-from app.api.crud import reset_access_token
-from app.api.dependencies import check_role
 from app.api.services.service import get_user_informations
 from app.core.config import REMOTE_USER_URL
 

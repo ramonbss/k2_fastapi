@@ -1,7 +1,7 @@
 from fastapi import HTTPException, Header, Depends
-from .database import DatabaseSessionLocal
+from .database import Admin, DatabaseSessionLocal, User
 from sqlalchemy.orm import Session
-from .crud import get_user_by_token, get_database, get_user_by_id
+from .crud import get_user_by_token, get_database, get_user_by_id, get_admin_by_id
 
 
 async def validate_token(authorization: str = Header(...)):
@@ -18,11 +18,19 @@ async def validate_user_id(user_id: int):
     return user_id
 
 
+async def validate_admin_id(user_id: int):
+    user = get_admin_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    return user_id
+
+
 async def check_role(role: str, token: str):
     """check if the user has the required role"""
     try:
         db = DatabaseSessionLocal()
-        user = get_user_by_token(token)
+        instance = User if role == "user" else Admin
+        user = get_user_by_token(token, instance)
     finally:
         db.close()
     if not user or user.role != role:

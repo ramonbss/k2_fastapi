@@ -3,4 +3,4 @@ REMOTE_TOKEN_URL = FAKE_API_URL + "token"
 REMOTE_USER_URL = FAKE_API_URL + "user"
 REMOTE_ADMIN_URL = FAKE_API_URL + "admin"
 
-DATABASE_URL = "sqlite:///auth_data.db"
+DATABASE_URL = "sqlite:///k2_database.db"
