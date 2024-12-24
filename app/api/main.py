@@ -1,9 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 import httpx
 
-from app.api.services.service import get_user_informations
 from .models import UserCredentials
-from ..core.config import REMOTE_TOKEN_URL, REMOTE_ADMIN_URL
+from ..core.config import REMOTE_TOKEN_URL
 from .dependencies import (
     validate_token,
 )

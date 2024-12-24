@@ -66,21 +66,22 @@ def reset_access_token(token: str, instance: type[BaseUser]):
         db.close()
 
 
-def create_or_update_user(db: Session, username: str, role: str, token: str):
-    """Save or update user authentication data."""
-    instance = User if role == "user" else Admin
-    user = get_user_by_username(username, instance)
-    if user:
-        # Update existing user
-        user.role = role
-        user.token = token
-    else:
-        # Create new user
-        user = instance(username=username, role=role, token=token)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
+def create_or_update_user(username: str, role: str, token: str):
+    with get_db_session() as db:
+        """Save or update User/Admin data."""
+        instance = User if role == "user" else Admin
+        user = get_user_by_username(username, instance)
+        if user:
+            # Update existing user
+            user.role = role
+            user.token = token
+        else:
+            # Create new user
+            user = instance(username=username, role=role, token=token)
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
 
 
 def get_user_purchases_from_db(user_id: int):
