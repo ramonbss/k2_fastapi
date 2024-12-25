@@ -33,9 +33,9 @@ async def user_purchases(user_id: int = Depends(validate_user_id)):
         create_purchases(user.token, get_purchases_result["data"])
         users_purchases = get_user_purchases_from_db(user.id)
 
-    response = ""
+    user_purchases = []
 
     for p in users_purchases:
-        response += p.to_string() + "\n"
+        user_purchases.append(p.to_dict())
 
-    return response
+    return user_purchases

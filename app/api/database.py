@@ -40,16 +40,17 @@ class Purchase(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="purchases")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "item": self.item,
+            "price": self.price,
+        }
+
     def to_string(self):
         import json
 
-        return json.dumps(
-            {
-                "id": self.id,
-                "item": self.item,
-                "price": self.price,
-            }
-        )
+        return json.dumps(self.to_dict())
 
 
 class Report(Base):
@@ -61,16 +62,17 @@ class Report(Base):
     user_id = Column(Integer, ForeignKey("admins.id"), nullable=False)
     admin = relationship("Admin", back_populates="reports")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "status": self.status,
+        }
+
     def to_string(self):
         import json
 
-        return json.dumps(
-            {
-                "id": self.id,
-                "title": self.title,
-                "status": self.status,
-            }
-        )
+        return json.dumps(self.to_dict())
 
 
 Base.metadata.create_all(bind=engine)
