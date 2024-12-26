@@ -7,7 +7,7 @@ from app.api.crud import (
 )
 from app.api.database import User
 from app.api.services.service import get_user_informations
-from app.core.config import REMOTE_USER_URL, USER_USERNAME, USER_PASSWORD
+from app.core.config import REMOTE_USER_URL, ROLE_USER, USER_USERNAME, USER_PASSWORD
 from app.api.services.service import get_access_token
 
 
@@ -17,19 +17,19 @@ async def initiate_user_database():
         return
     user_token = await get_user_access_token_from_server()
 
-    create_or_update_user(username=USER_USERNAME, role="user", token=user_token)
+    create_or_update_user(username=USER_USERNAME, role=ROLE_USER, token=user_token)
 
 
 async def get_user_purchases_from_server(token: str):
     """Access the remote /user endpoint using a valid JWT token."""
-    data = await get_user_informations("user", token, REMOTE_USER_URL)
+    data = await get_user_informations(ROLE_USER, token, REMOTE_USER_URL)
     return data
 
 
 async def get_user_access_token_from_server():
     username = USER_USERNAME
     password = USER_PASSWORD
-    token = await get_access_token(username, password, "user")
+    token = await get_access_token(username, password, ROLE_USER)
     return token
 
 

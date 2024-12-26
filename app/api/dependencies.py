@@ -1,4 +1,6 @@
 from fastapi import HTTPException, Header, Depends
+
+from app.core.config import ROLE_ADMIN, ROLE_USER
 from .database import Admin, DatabaseSessionLocal, User
 from sqlalchemy.orm import Session
 from .crud import get_user_by_token, get_database, get_user_by_id, get_admin_by_id
@@ -29,7 +31,7 @@ async def check_role(role: str, token: str):
     """check if the user has the required role"""
     try:
         db = DatabaseSessionLocal()
-        instance = User if role == "user" else Admin
+        instance = User if role == ROLE_USER else Admin
         user = get_user_by_token(token, instance)
     finally:
         db.close()
@@ -40,8 +42,8 @@ async def check_role(role: str, token: str):
 
 
 async def check_if_user_role(token: str):
-    return await check_role("user", token)
+    return await check_role(ROLE_USER, token)
 
 
 async def check_if_admin_role(token: str):
-    return await check_role("admin", token)
+    return await check_role(ROLE_ADMIN, token)

@@ -3,7 +3,7 @@ import httpx
 from app.api.crud import create_or_update_user, reset_access_token
 from app.api.database import Admin, User
 from app.api.dependencies import check_role
-from app.core.config import REMOTE_TOKEN_URL
+from app.core.config import REMOTE_TOKEN_URL, ROLE_USER
 
 
 async def get_user_informations(role: str, token: str, ENDPOINT_URL):
@@ -11,7 +11,7 @@ async def get_user_informations(role: str, token: str, ENDPOINT_URL):
     async with httpx.AsyncClient(verify=False) as client:
         headers = {"Authorization": token}
         response = await client.get(ENDPOINT_URL, headers=headers)
-        instance = User if role == "user" else Admin
+        instance = User if role == ROLE_USER else Admin
         if response.status_code == 401:
             reset_access_token(token.split(" ")[1], instance)
             raise HTTPException(

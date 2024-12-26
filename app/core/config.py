@@ -6,6 +6,9 @@ REMOTE_TOKEN_URL = FAKE_API_URL + "token"
 REMOTE_USER_URL = FAKE_API_URL + "user"
 REMOTE_ADMIN_URL = FAKE_API_URL + "admin"
 
+ROLE_USER = "user"
+ROLE_ADMIN = "admin"
+
 DATABASE_URL = "sqlite:///k2_database.db"
 
 load_dotenv()

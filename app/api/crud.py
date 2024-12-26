@@ -1,5 +1,7 @@
 from contextlib import contextmanager
 from sqlalchemy.orm import Session
+
+from app.core.config import ROLE_USER
 from .database import Admin, BaseUser, Purchase, Report, User, DatabaseSessionLocal
 
 
@@ -66,7 +68,7 @@ def reset_access_token(token: str, instance: type[BaseUser]):
 def create_or_update_user(username: str, role: str, token: str):
     with get_db_session() as db:
         """Save or update User/Admin data."""
-        instance = User if role == "user" else Admin
+        instance = User if role == ROLE_USER else Admin
         user = get_user_by_username(username, instance)
         if user:
             # Update existing user
@@ -89,7 +91,7 @@ def get_user_purchases_from_db(user_id: int):
 
 def get_user_purchases_by_username(db: Session, username: str):
     """Retrieve a user's purchases by their username."""
-    user = get_user_by_username(username, "user")
+    user = get_user_by_username(username, ROLE_USER)
     if user:
         return get_user_purchases_from_db(user.id)
 

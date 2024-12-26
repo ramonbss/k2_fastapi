@@ -16,19 +16,19 @@ async def initiate_admin_database():
         return
     admin_token = await get_admin_access_token_from_server()
 
-    create_or_update_user(username=ADMIN_USERNAME, role="admin", token=admin_token)
+    create_or_update_user(username=ADMIN_USERNAME, role=ROLE_ADMIN, token=admin_token)
 
 
 async def get_admin_reports_from_server(token: str):
     """Access the remote /user endpoint using a valid JWT token."""
-    data = await get_user_informations("admin", token, REMOTE_ADMIN_URL)
+    data = await get_user_informations(ROLE_ADMIN, token, REMOTE_ADMIN_URL)
     return data
 
 
 async def get_admin_access_token_from_server():
     username = ADMIN_USERNAME
     password = ADMIN_PASSWORD
-    token = await get_access_token(username, password, "admin")
+    token = await get_access_token(username, password, ROLE_ADMIN)
     return token
 
 

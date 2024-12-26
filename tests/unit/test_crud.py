@@ -3,8 +3,6 @@ from unittest.mock import MagicMock, patch
 from app.api.crud import (
     create_or_update_user,
     get_user_by_username,
-    get_user_by_email,
-    reset_access_token,
     get_user_purchases_from_db,
     create_purchases,
     get_admin_reports_from_db,
@@ -13,6 +11,7 @@ from app.api.crud import (
     get_user_by_id,
     get_admin_by_id,
 )
+from app.core.config import ROLE_ADMIN, ROLE_USER
 
 
 # Mocking thea database session
@@ -91,11 +90,11 @@ def test_create_or_update_user(mock_db_session):
     # Simulate no existing user in the database (create case)
     mock_db_session.query.return_value.filter.return_value.first.return_value = None
 
-    result = create_or_update_user("testuser", "user", "testtoken")
+    result = create_or_update_user("testuser", ROLE_USER, "testtoken")
 
     # Assertions for created user
     assert result.username == "testuser"
-    assert result.role == "user"
+    assert result.role == ROLE_USER
     assert result.token == "testtoken"
 
     # Verify database calls
@@ -106,15 +105,15 @@ def test_create_or_update_user(mock_db_session):
 def test_create_or_update_existing_user(mock_db_session):
 
     # Simulate an existing user in the database (update case)
-    existing_user = MagicMock(username="testuser", role="user", token="oldtoken")
+    existing_user = MagicMock(username="testuser", role=ROLE_USER, token="oldtoken")
     mock_db_session.query.return_value.filter.return_value.first.return_value = (
         existing_user
     )
 
-    create_or_update_user("testuser", "admin", "newtoken")
+    create_or_update_user("testuser", ROLE_ADMIN, "newtoken")
 
     # Assertions for updated user
-    assert existing_user.role == "admin"
+    assert existing_user.role == ROLE_ADMIN
     assert existing_user.token == "newtoken"
 
     # Verify database calls

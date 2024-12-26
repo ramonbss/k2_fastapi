@@ -12,6 +12,7 @@ from app.api.crud import (
     reset_access_token,
 )
 from app.api.database import Base, User, Admin, Purchase, Report
+from app.core.config import ROLE_ADMIN, ROLE_USER
 
 # Create an in-memory SQLite database for testing
 TEST_DATABASE_URL = "sqlite:///:memory:"
@@ -58,19 +59,19 @@ def override_get_db_session(monkeypatch):
 def test_create_or_update_user(test_db):
 
     # Create a new user
-    user = create_or_update_user("testuser", "user", "testtoken")
+    user = create_or_update_user("testuser", ROLE_USER, "testtoken")
 
     # Verify user creation
     assert user.username == "testuser"
-    assert user.role == "user"
+    assert user.role == ROLE_USER
     assert user.token == "testtoken"
 
     # Update the same user with a new token and role
-    updated_user = create_or_update_user("testuser", "admin", "newtoken")
+    updated_user = create_or_update_user("testuser", ROLE_ADMIN, "newtoken")
 
     # Verify user update
     assert updated_user.username == "testuser"
-    assert updated_user.role == "admin"  # Role updated
+    assert updated_user.role == ROLE_ADMIN  # Role updated
     assert updated_user.token == "newtoken"  # Token updated
 
     # Check that only one record exists in the database
@@ -81,7 +82,7 @@ def test_create_or_update_user(test_db):
 def test_get_user_by_token(test_db):
 
     # Insert a user into the test database
-    user = User(username="testuser", role="user", token="testtoken")
+    user = User(username="testuser", role=ROLE_USER, token="testtoken")
     test_db.add(user)
     test_db.commit()
 
@@ -96,7 +97,7 @@ def test_get_user_by_token(test_db):
 def test_get_user_purchases_from_db(test_db):
 
     # Insert a user and purchases into the test database
-    user = User(username="testuser", role="user", token="testtoken")
+    user = User(username="testuser", role=ROLE_USER, token="testtoken")
     purchase_1 = Purchase(item="Laptop", price=2500, user_id=1)
     purchase_2 = Purchase(item="Smartphone", price=1200, user_id=1)
 
@@ -116,7 +117,7 @@ def test_get_user_purchases_from_db(test_db):
 def test_create_purchases(test_db):
 
     # Insert a user into the test database
-    user = User(username="testuser", role="user", token="testtoken")
+    user = User(username="testuser", role=ROLE_USER, token="testtoken")
     test_db.add(user)
     test_db.commit()
 
@@ -140,7 +141,7 @@ def test_create_purchases(test_db):
 def test_get_admin_reports_from_db(test_db):
 
     # Insert an admin and reports into the test database
-    admin = Admin(username="adminuser", role="admin", token="admintoken")
+    admin = Admin(username="adminuser", role=ROLE_ADMIN, token="admintoken")
     report_1 = Report(title="Report 1", status="Pending", user_id=1)
     report_2 = Report(title="Report 2", status="Completed", user_id=1)
 
@@ -161,7 +162,7 @@ def test_get_admin_reports_from_db(test_db):
 def test_create_reports(test_db):
 
     # Insert an admin into the test database
-    admin = Admin(username="adminuser", role="admin", token="admintoken")
+    admin = Admin(username="adminuser", role=ROLE_ADMIN, token="admintoken")
     test_db.add(admin)
     test_db.commit()
 
@@ -190,7 +191,7 @@ def test_create_reports(test_db):
 def test_reset_access_token(test_db):
 
     # Insert a user into the test database
-    user = User(username="testuser", role="user", token="testtoken")
+    user = User(username="testuser", role=ROLE_USER, token="testtoken")
     test_db.add(user)
     test_db.commit()
 
