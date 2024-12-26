@@ -66,8 +66,7 @@ Fetches the purchases of an user given the `user_id`.
 
 #### Curl Example
 ```shell
-curl -X GET "http://127.0.0.1:8000/user?user_id=1"
--H "Content-Type: application/json"
+curl -X GET "http://127.0.0.1:8000/user?user_id=1" -H "Content-Type: application/json"
 ```
 
 #### Example Response
@@ -103,8 +102,7 @@ Fetches the reports of an admin based on their `user_id`.
 
 #### Curl Example
 ```shell
-curl -X GET "http://127.0.0.1:8000/admin?user_id=1"
--H "Content-Type: application/json"
+curl -X GET "http://127.0.0.1:8000/admin?user_id=1" -H "Content-Type: application/json"
 ```
 
 #### Example Response
