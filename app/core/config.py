@@ -19,5 +19,5 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 for env_variable in [USER_USERNAME, USER_PASSWORD, ADMIN_USERNAME, ADMIN_PASSWORD]:
     if not env_variable:
         raise EnvironmentError(
-            f"Required environment variable ´{env_variable}´ is missing."
+            f"Required environment variables are missing. Check the '.env Template' file"
         )
