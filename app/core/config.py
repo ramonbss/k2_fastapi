@@ -14,3 +14,10 @@ USER_USERNAME = os.getenv("USER_USERNAME")
 USER_PASSWORD = os.getenv("USER_PASSWORD")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+
+for env_variable in [USER_USERNAME, USER_PASSWORD, ADMIN_USERNAME, ADMIN_PASSWORD]:
+    if not env_variable:
+        raise EnvironmentError(
+            f"Required environment variable ´{env_variable}´ is missing."
+        )
