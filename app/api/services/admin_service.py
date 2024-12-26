@@ -39,4 +39,4 @@ async def fetch_admin_reports(admin: Admin):
     for p in admins_reports:
         admin_reports.append(p.to_dict())
 
-    return admin_reports
+    return {"reports": admin_reports}

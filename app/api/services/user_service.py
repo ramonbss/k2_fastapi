@@ -40,4 +40,4 @@ async def fetch_user_purchases(user: User):
     for p in users_purchases:
         user_purchases.append(p.to_dict())
 
-    return user_purchases
+    return {"purchases": user_purchases}
