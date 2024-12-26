@@ -55,15 +55,12 @@ def get_user_by_email(email: str):
 
 
 def reset_access_token(token: str, instance: type[BaseUser]):
-    try:
-        db = DatabaseSessionLocal()
+    with get_db_session() as db:
         user = get_user_by_token(token, instance)
         user.token = ""
         db.add(user)
         db.commit()
         db.refresh(user)
-    finally:
-        db.close()
 
 
 def create_or_update_user(username: str, role: str, token: str):
