@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 import httpx
 
+from app.api.services.admin_service import initiate_admin_database
+from app.api.services.user_service import initiate_user_database
+
 from .models import UserCredentials
 from ..core.config import REMOTE_TOKEN_URL
 from .dependencies import (
@@ -25,17 +28,7 @@ fast_app.include_router(
 )
 
 
-@fast_app.post("/token")
-async def authenticate(
-    credentials: UserCredentials, db: Session = Depends(get_database)
-):
-    async with httpx.AsyncClient(verify=False) as client:
-        auth_data = {"username": credentials.username, "password": credentials.password}
-        response = await client.post(REMOTE_TOKEN_URL, params=auth_data)
-        if response.status_code != 200:
-            raise HTTPException(status_code=400, detail="Invalid credentials")
-        token = response.json()["access_token"]
-        create_or_update_user(
-            db=db, username=credentials.username, role=credentials.role, token=token
-        )
-        return response.json()
+@fast_app.on_event("startup")
+async def start_up():
+    await initiate_user_database()
+    await initiate_admin_database()

@@ -1,8 +1,22 @@
 from fastapi import HTTPException
-from app.api.crud import create_reports, get_admin_reports_from_db
+from app.api.crud import (
+    create_or_update_user,
+    create_reports,
+    get_admin_reports_from_db,
+    get_user_by_username,
+)
 from app.api.database import Admin
 from app.api.services.service import get_access_token, get_user_informations
 from app.core.config import ADMIN_USERNAME, ADMIN_PASSWORD, REMOTE_ADMIN_URL
+
+
+async def initiate_admin_database():
+    user = get_user_by_username(ADMIN_USERNAME, Admin)
+    if user:
+        return
+    admin_token = await get_admin_access_token_from_server()
+
+    create_or_update_user(username=ADMIN_USERNAME, role="admin", token=admin_token)
 
 
 async def get_admin_reports_from_server(token: str):
@@ -19,7 +33,8 @@ async def get_admin_access_token_from_server():
 
 
 async def fetch_admin_reports(admin: Admin):
-    if not admin.token:
+    admin_access_token = admin.token
+    if not admin_access_token:
         admin_access_token = await get_admin_access_token_from_server()
 
     admins_reports = get_admin_reports_from_db(admin.id)

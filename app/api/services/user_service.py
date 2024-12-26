@@ -1,9 +1,23 @@
 from fastapi import HTTPException
-from app.api.crud import create_purchases, get_user_purchases_from_db
+from app.api.crud import (
+    create_or_update_user,
+    create_purchases,
+    get_user_purchases_from_db,
+    get_user_by_username,
+)
 from app.api.database import User
 from app.api.services.service import get_user_informations
 from app.core.config import REMOTE_USER_URL, USER_USERNAME, USER_PASSWORD
 from app.api.services.service import get_access_token
+
+
+async def initiate_user_database():
+    user = get_user_by_username(USER_USERNAME, User)
+    if user:
+        return
+    user_token = await get_user_access_token_from_server()
+
+    create_or_update_user(username=USER_USERNAME, role="user", token=user_token)
 
 
 async def get_user_purchases_from_server(token: str):
@@ -20,7 +34,8 @@ async def get_user_access_token_from_server():
 
 
 async def fetch_user_purchases(user: User):
-    if not user.token:
+    user_access_token = user.token
+    if not user_access_token:
         user_access_token = await get_user_access_token_from_server()
 
     users_purchases = get_user_purchases_from_db(user.id)
