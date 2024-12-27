@@ -7,7 +7,7 @@ from app.api.crud import (
 )
 from app.api.database import Admin
 from app.api.services.service import get_access_token, get_user_informations
-from app.core.config import ADMIN_USERNAME, ADMIN_PASSWORD, REMOTE_ADMIN_URL
+from app.core.config import ADMIN_USERNAME, ADMIN_PASSWORD, REMOTE_ADMIN_URL, ROLE_ADMIN
 
 
 async def initiate_admin_database():
