@@ -20,11 +20,11 @@ from app.api.routers import user_routers, admin_routers
 fast_app = FastAPI()
 
 fast_app.include_router(
-    user_routers.user_router, prefix="/user", tags=[user_routers.TAG_USERS]
+    user_routers.user_router, prefix="/purchase", tags=[user_routers.TAG_USERS]
 )
 
 fast_app.include_router(
-    admin_routers.admin_router, prefix="/admin", tags=[admin_routers.TAG_ADMIN]
+    admin_routers.admin_router, prefix="/report", tags=[admin_routers.TAG_ADMIN]
 )
 
 
