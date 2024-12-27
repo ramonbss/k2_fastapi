@@ -1,20 +1,8 @@
-from fastapi import FastAPI, Depends, HTTPException
-import httpx
+from fastapi import FastAPI
 
 from app.api.services.admin_service import initiate_admin_database
 from app.api.services.user_service import initiate_user_database
 
-from .models import UserCredentials
-from ..core.config import REMOTE_TOKEN_URL
-from .dependencies import (
-    validate_token,
-)
-from sqlalchemy.orm import Session
-
-from .crud import (
-    create_or_update_user,
-    get_database,
-)
 from app.api.routers import user_routers, admin_routers
 
 fast_app = FastAPI()
