@@ -9,9 +9,6 @@ SERVICE_PATH = "app.api.services"
 
 
 @pytest.mark.asyncio
-@patch(f"{SERVICE_PATH}.service.httpx.AsyncClient")
-@patch(f"{SERVICE_PATH}.service.check_role")
-@patch(f"{SERVICE_PATH}.service.reset_access_token")
 async def test_get_user_informations_success(
     mock_reset_access_token, mock_check_role, mock_httpx_client
 ):
@@ -36,9 +33,6 @@ async def test_get_user_informations_success(
 
 
 @pytest.mark.asyncio
-@patch(f"{SERVICE_PATH}.service.httpx.AsyncClient")
-@patch(f"{SERVICE_PATH}.service.check_role")
-@patch(f"{SERVICE_PATH}.service.reset_access_token")
 async def test_get_user_informations_unauthorized(
     mock_reset_access_token, mock_check_role, mock_httpx_client
 ):
@@ -62,8 +56,6 @@ async def test_get_user_informations_unauthorized(
 
 
 @pytest.mark.asyncio
-@patch(f"{SERVICE_PATH}.service.httpx.AsyncClient")
-@patch(f"{SERVICE_PATH}.service.check_role")
 async def test_get_user_informations_other_error(mock_check_role, mock_httpx_client):
     mock_check_role.return_value = None
 
@@ -83,7 +75,6 @@ async def test_get_user_informations_other_error(mock_check_role, mock_httpx_cli
 
 
 @pytest.mark.asyncio
-@patch(f"{SERVICE_PATH}.service.httpx.AsyncClient")
 @patch(f"{SERVICE_PATH}.service.create_or_update_user")
 async def test_get_access_token_success(mock_create_or_update_user, mock_httpx_client):
     # Mock HTTP response from the token endpoint
@@ -114,7 +105,6 @@ async def test_get_access_token_success(mock_create_or_update_user, mock_httpx_c
 
 
 @pytest.mark.asyncio
-@patch(f"{SERVICE_PATH}.service.httpx.AsyncClient")
 async def test_get_access_token_failure(mock_httpx_client):
     # Mock HTTP response with a non-200 status code (e.g., 400 Bad Request)
     mock_response = AsyncMock(
