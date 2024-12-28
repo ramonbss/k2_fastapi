@@ -14,14 +14,6 @@ from app.api.crud import (
 from app.core.config import ROLE_ADMIN, ROLE_USER
 
 
-# Mocking thea database session
-@pytest.fixture
-def mock_db_session2(mocker):
-    mock_session = MagicMock()
-    mocker.patch("crud.get_db_session", return_value=mock_session)
-    return mock_session
-
-
 @pytest.fixture
 def mock_db_session():
     """
